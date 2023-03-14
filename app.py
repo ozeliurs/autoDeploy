@@ -80,14 +80,13 @@ def create_container():
         remove=True
     )
 
-    with app.app_context():
-        container = Container(
-            docker_id=container.id,
-            image=data["image"],
-            branch=data["branch"]
-        )
-        db.session.add(container)
-        db.session.commit()
+    container = Container(
+        docker_id=container.id,
+        image=data["image"],
+        branch=data["branch"]
+    )
+    db.session.add(container)
+    db.session.commit()
 
     return jsonify({"id": container.id})
 
