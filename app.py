@@ -65,7 +65,7 @@ def create_container():
 
     labels = {
         "traefik.enable": "true",
-        f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.tls": True,
+        f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.tls": "true",
         f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.rule": f"Host(`{data['branch']}.quizz.ozeliurs.com`)",
         f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.entrypoints": "websecure",
         f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.tls.certresolver": "cloudflare",
