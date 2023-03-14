@@ -1,0 +1,19 @@
+services:
+  webhooks:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webhooks.rule=Host(`webhooks.ozeliurs.com`)"
+      - "traefik.http.routers.webhooks.entrypoints=websecure"
+      - "traefik.http.routers.webhooks.tls=true"
+      - "traefik.http.routers.webhooks.tls.certresolver=cloudflare"
+
+networks:
+  traefik:
+    external: true
