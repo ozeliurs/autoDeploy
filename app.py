@@ -28,14 +28,13 @@ if not password.exists():
 password = password.read_text().strip()
 
 # Database ---------------------------------------------------------------------
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data/db.sqlite3"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
 class Container(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     docker_id = db.Column(db.String(80), unique=True, nullable=False)
-    name = db.Column(db.String(80), unique=True, nullable=False)
     image = db.Column(db.String(80), nullable=False)
     branch = db.Column(db.String(80), nullable=False)
 
@@ -48,7 +47,7 @@ with app.app_context():
 @app.get("/")
 def list_containers():
     containers = Container.query.all()
-    return jsonify([{c.name: c.docker_id} for c in containers])
+    return jsonify([{f"{c.image}:{c.branch}": c.docker_id} for c in containers])
 
 
 @app.post("/")
