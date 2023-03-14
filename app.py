@@ -65,17 +65,17 @@ def create_container():
 
     labels = {
         "traefik.enable": "true",
-        f"traefik.http.routers.quizz-{data['image']}.tls": True,
-        f"traefik.http.routers.quizz-{data['image']}.rule": f"Host(`{data['branch']}.quizz.ozeliurs.com`)",
-        f"traefik.http.routers.quizz-{data['image']}.entrypoints": "websecure",
-        f"traefik.http.routers.quizz-{data['image']}.tls.certresolver": "cloudflare",
+        f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.tls": True,
+        f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.rule": f"Host(`{data['branch']}.quizz.ozeliurs.com`)",
+        f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.entrypoints": "websecure",
+        f"traefik.http.routers.quizz-{data['image']}-{data['branch']}.tls.certresolver": "cloudflare",
     }
 
     container = client.containers.run(
         f"ghcr.io/2019-2020-ps6/2022-2023-ps6-webonjour/{data['image']}:{data['branch']}",
         detach=True,
         labels=labels,
-        name=data["name"],
+        name=f"quizz-{data['image']}-{data['branch']}",
         network="traefik",
         remove=True
     )
@@ -83,7 +83,6 @@ def create_container():
     with app.app_context():
         container = Container(
             docker_id=container.id,
-            name=data["name"],
             image=data["image"],
             branch=data["branch"]
         )
