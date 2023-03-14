@@ -7,6 +7,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - traefik
+    env_file:
+      - .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.webhooks.rule=Host(`webhooks.ozeliurs.com`)"

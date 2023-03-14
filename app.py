@@ -1,6 +1,8 @@
 import string
 import random
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 import docker
 from flask import Flask, request, jsonify
@@ -9,6 +11,13 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 db = SQLAlchemy(app)
 client = docker.from_env()
+
+load_dotenv()
+client.login(
+    username=os.getenv("DOCKER_USERNAME"),
+    password=os.getenv("DOCKER_PASSWORD"),
+    registry="ghcr.io"
+)
 
 # Password ---------------------------------------------------------------------
 password = Path("./data/password")
